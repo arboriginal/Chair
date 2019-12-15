@@ -1,0 +1,45 @@
+# ----------------------------------------------------------------------------------------------------------------------
+# ${project.artifactId}, version ${project.version} -  Configuration file.
+# .
+# You will find an explanation of all parameters here:
+# https://github.com/arboriginal/${project.artifactId}/blob/master/src/main/resources/config.yml
+# ----------------------------------------------------------------------------------------------------------------------
+
+onlyEmptyHand: true # (true or false) If true, the player have to hold nothing in hand to sit
+maxDistToBlock: 2 # (integer) Maximum distance (in blocks) the player must be from the sit he wants to sit on.
+minBlocksAbove: 1 # (integer) Minimum number of empty blocks above the chair to allow the player to sit on.
+
+# Blocks allowed to be sit for players
+# Available values: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html (only work for blocks material)
+allowedBlocks:
+- ACACIA_STAIRS
+- ANDESITE_STAIRS
+- BIRCH_STAIRS
+- BRICK_STAIRS
+- COBBLESTONE_STAIRS
+- DARK_OAK_STAIRS
+- DARK_PRISMARINE_STAIRS
+- DIORITE_STAIRS
+- END_STONE_BRICK_STAIRS
+- GRANITE_STAIRS
+- JUNGLE_STAIRS
+- MOSSY_COBBLESTONE_STAIRS
+- MOSSY_STONE_BRICK_STAIRS
+- NETHER_BRICK_STAIRS
+- OAK_STAIRS
+- POLISHED_ANDESITE_STAIRS
+- POLISHED_DIORITE_STAIRS
+- POLISHED_GRANITE_STAIRS
+- PRISMARINE_BRICK_STAIRS
+- PRISMARINE_STAIRS
+- PURPUR_STAIRS
+- QUARTZ_STAIRS
+- RED_NETHER_BRICK_STAIRS
+- RED_SANDSTONE_STAIRS
+- SANDSTONE_STAIRS
+- SMOOTH_QUARTZ_STAIRS
+- SMOOTH_RED_SANDSTONE_STAIRS
+- SMOOTH_SANDSTONE_STAIRS
+- SPRUCE_STAIRS
+- STONE_BRICK_STAIRS
+- STONE_STAIRS

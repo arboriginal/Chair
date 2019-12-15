@@ -1,0 +1,23 @@
+name: ${project.name}
+description: ${project.description}
+version: ${project.version}
+
+author: arboriginal
+dev-url: https://github.com/arboriginal/${project.artifactId}
+
+main: ${project.groupId}.${project.artifactId}.${spigot-main}
+api-version: ${spigot-api}
+
+commands:
+  chair-reload:
+    description: Reload the plugin configuration
+    permission: chair.reload
+
+permissions:
+  chair.reload:
+    description: Allows to reload the configuration
+    default: op
+
+  chair.use:
+    description: Allows to use chairs
+    default: true
