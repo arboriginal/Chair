@@ -149,7 +149,8 @@ public class Plugin extends JavaPlugin implements Listener {
     }
 
     private Entity occupied(Location l) {
-        for (Entity e : l.getWorld().getNearbyEntities(l, 1, 1, 1)) if (e.getType() == EntityType.ARMOR_STAND) return e;
+        for (Entity e : l.getWorld().getNearbyEntities(l, 1, 1, 1))
+            if (e.getType() == EntityType.ARMOR_STAND && chairs.containsKey(e.getUniqueId())) return e;
         return null;
     }
 
