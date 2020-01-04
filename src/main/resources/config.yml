@@ -5,7 +5,8 @@
 # https://github.com/arboriginal/${project.artifactId}/blob/master/src/main/resources/config.yml
 # ----------------------------------------------------------------------------------------------------------------------
 
-onlyEmptyHand: true # (true or false) If true, the player have to hold nothing in hand to sit
+onlyEmptyHand: true # (true or false) If true, the player have to hold nothing in hand to sit (weapons/tools works too)
+dirBlocksFace: true # (true or false) If true, turn player in the same direction than directional blocks (like stairs)
 maxDistToBlock: 2 # (integer) Maximum distance (in blocks) the player must be from the sit he wants to sit on.
 minBlocksAbove: 1 # (integer) Minimum number of empty blocks above the chair to allow the player to sit on.
 

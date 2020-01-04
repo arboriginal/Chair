@@ -49,7 +49,7 @@ public class Plugin extends JavaPlugin implements Listener {
         }
     };
 
-    private boolean oeh;
+    private boolean dbf, oeh;
     private int     mba, mdb;
 
     private List<String> asb;
@@ -84,6 +84,7 @@ public class Plugin extends JavaPlugin implements Listener {
         saveDefaultConfig();
         FileConfiguration c = getConfig();
         c.options().copyDefaults(true);
+        dbf = c.getBoolean("dirBlocksFace");
         oeh = c.getBoolean("onlyEmptyHand");
         asb = c.getStringList("allowedBlocks");
         mba = c.getInt("minBlocksAbove");
@@ -136,7 +137,7 @@ public class Plugin extends JavaPlugin implements Listener {
             public void accept(ArmorStand a) {
                 a.setVisible(false);
                 a.setMarker(true);
-                if (bd instanceof Directional) p.teleport(p.getLocation().setDirection(((Directional) bd)
+                if (dbf && bd instanceof Directional) p.teleport(p.getLocation().setDirection(((Directional) bd)
                         .getFacing().getOppositeFace().getDirection()), TeleportCause.ENDER_PEARL);
                 a.addPassenger(p);
             }
