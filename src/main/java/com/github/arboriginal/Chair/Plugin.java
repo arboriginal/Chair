@@ -111,7 +111,7 @@ public class Plugin extends JavaPlugin implements Listener {
                 Block b = p.getLocation().getBlock(), d = l.getBlock();
                 if ((!b.isPassable() || !b.getRelative(BlockFace.UP).isPassable())
                   && (d.isPassable() &&  d.getRelative(BlockFace.UP).isPassable()))
-                    p.teleport(l, TeleportCause.ENDER_PEARL);
+                    p.teleport(l, TeleportCause.UNKNOWN);
             } // @formatter:on
         }.runTask(this);
     }
@@ -138,7 +138,7 @@ public class Plugin extends JavaPlugin implements Listener {
                 a.setVisible(false);
                 a.setMarker(true);
                 if (dbf && bd instanceof Directional) p.teleport(p.getLocation().setDirection(((Directional) bd)
-                        .getFacing().getOppositeFace().getDirection()), TeleportCause.ENDER_PEARL);
+                        .getFacing().getOppositeFace().getDirection()), TeleportCause.UNKNOWN);
                 a.addPassenger(p);
             }
         }).getUniqueId(), pl);
