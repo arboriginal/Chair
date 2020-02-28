@@ -3,6 +3,7 @@ package com.github.arboriginal.Chair;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import org.bukkit.Bukkit;
@@ -37,17 +38,8 @@ import org.bukkit.util.Consumer;
 import org.spigotmc.event.entity.EntityDismountEvent;
 
 public class Plugin extends JavaPlugin implements Listener {
-    private final Set<Material> trap = Tag.TRAPDOORS.getValues(), flat = new HashSet<Material>() {
-        private static final long serialVersionUID = 1L;
-        {
-            addAll(Tag.CARPETS.getValues());
-            addAll(Tag.RAILS.getValues());
-            addAll(Tag.WOODEN_PRESSURE_PLATES.getValues());
-            add(Material.HEAVY_WEIGHTED_PRESSURE_PLATE);
-            add(Material.LIGHT_WEIGHTED_PRESSURE_PLATE);
-            add(Material.STONE_PRESSURE_PLATE);
-        }
-    };
+    private HashMap<String, Double> ahp;
+    private Set<Material>           trap, flat;
 
     private boolean dbf, oeh;
     private int     mba, mdb;
@@ -73,6 +65,20 @@ public class Plugin extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         super.onEnable();
+
+        trap = Tag.TRAPDOORS.getValues();
+        flat = new HashSet<Material>() {
+                 private static final long serialVersionUID = 1L;
+                 {
+                     addAll(Tag.CARPETS.getValues());
+                     addAll(Tag.RAILS.getValues());
+                     addAll(Tag.WOODEN_PRESSURE_PLATES.getValues());
+                     add(Material.HEAVY_WEIGHTED_PRESSURE_PLATE);
+                     add(Material.LIGHT_WEIGHTED_PRESSURE_PLATE);
+                     add(Material.STONE_PRESSURE_PLATE);
+                 }
+             };
+
         reloadConfig();
         chairs = new HashMap<UUID, Location>();
         Bukkit.getPluginManager().registerEvents(this, this);
@@ -89,6 +95,8 @@ public class Plugin extends JavaPlugin implements Listener {
         asb = c.getStringList("allowedBlocks");
         mba = c.getInt("minBlocksAbove");
         mdb = (int) Math.pow(c.getInt("maxDistToBlock"), 2) + 1;
+        ahp = getHeightAdjustments(c.getConfigurationSection("heightAdjustments").getValues(false),
+                c.getDefaults().getConfigurationSection("heightAdjustments").getValues(false));
         saveConfig();
     }
 
@@ -149,6 +157,15 @@ public class Plugin extends JavaPlugin implements Listener {
         if (e.isValid()) e.remove();
     }
 
+    private HashMap<String, Double> getHeightAdjustments(Map<String, Object> map, Map<String, Object> dVals) {
+        HashMap<String, Double> vals = new HashMap<String, Double>();
+        dVals.forEach((k, v) -> {
+            Object uv = map.get(k);
+            vals.put(k, (Double) ((uv != null && uv instanceof Double) ? uv : v));
+        });
+        return vals;
+    }
+
     private Entity occupied(Location l) {
         for (Entity e : l.getWorld().getNearbyEntities(l, 1, 1, 1))
             if (e.getType() == EntityType.ARMOR_STAND && chairs.containsKey(e.getUniqueId())) return e;
@@ -160,13 +177,13 @@ public class Plugin extends JavaPlugin implements Listener {
     }
 
     private Location sitPlayerLocation(Block b, BlockData bd, Material t, Location l) {
-        if (t == Material.CAKE) return l.add(0, 0.3, 0);
-        if (t == Material.DAYLIGHT_DETECTOR) return l.add(0, 0.2, 0);
-        if (flat.contains(t)) return l.add(0, -0.2, 0);
-        if (trap.contains(t)) return l.add(0, -0.1, 0);
-        return l.add(0, ((bd instanceof Bisected && ((Bisected) bd).getHalf() == Half.BOTTOM) // @formatter:off
-                      || (bd instanceof Slab     && ((Slab)     bd).getType() == Type.BOTTOM))? 0.3 : 0.8, 0);
-    } // @formatter:on
+        if (t == Material.CAKE) return l.add(0, ahp.get("cake"), 0);
+        if (t == Material.DAYLIGHT_DETECTOR) return l.add(0, ahp.get("detector"), 0);
+        if (flat.contains(t)) return l.add(0, ahp.get("flats"), 0);
+        if (trap.contains(t)) return l.add(0, ahp.get("traps"), 0);
+        return l.add(0, ahp.get(((bd instanceof Bisected && ((Bisected) bd).getHalf() == Half.BOTTOM)
+                || (bd instanceof Slab && ((Slab) bd).getType() == Type.BOTTOM)) ? "slabs" : "default"), 0);
+    }
 
     private boolean valid(Block b, Material t) {
         if (!asb.contains(t.name()) || (trap.contains(t) && !((TrapDoor) b.getBlockData()).isOpen())) return false;
