@@ -44,7 +44,11 @@ allowedBlocks:
 - SPRUCE_STAIRS
 - STONE_BRICK_STAIRS
 - STONE_STAIRS
-
+- CRIMSON_STAIRS
+- WARPED_STAIRS
+- BLACKSTONE_STAIRS
+- POLISHED_BLACKSTONE_STAIRS
+- POLISHED_BLACKSTONE_BRICK_STAIRS
 # Advanced: Adjust heights of sit position on some blocks (it was hardcoded in previous plugin version)
 # Those default values works on Spigot / Paper 1.15.2 (actually paper 121 to be precise).
 heightAdjustments:
